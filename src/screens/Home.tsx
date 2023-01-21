@@ -1,10 +1,49 @@
-import { View } from "react-native";
+import { Text, View, ScrollView } from "react-native";
+
+import { generateDatesFromYearBeginning } from "../utils/generateDatesFromYearBeginning";
+import { HabitDay, DAY_SIZE } from "../components/HabitDay";
 import { Header } from "../components/Header";
+
+const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"];
+const datesFromYearStart = generateDatesFromYearBeginning();
+const minimumSummaryDatesSizes = 365;
+const amountDaysToFill = minimumSummaryDatesSizes - datesFromYearStart.length;
 
 export function Home() {
 	return (
-        <View className="bg-background flex-1 px-8 pt-16">
-            <Header />
-        </View>
-    );
+		<View className="bg-background flex-1 px-8 pt-16">
+			<Header />
+
+			<View className="flex-row mt-6 mb-2">
+				{weekDays.map((weekDay, i) => (
+					<Text
+						key={i}
+						className="text-zinc-200 text-xl font-bold text-center mx-1 "
+						style={{ width: DAY_SIZE }}
+					>
+						{weekDay}
+					</Text>
+				))}
+			</View>
+
+			<ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 100}}
+            >
+				<View className="flex-row flex-wrap">
+					{datesFromYearStart.map((date) => (
+						<HabitDay key={date.toISOString()} />
+					))}
+
+					{amountDaysToFill > 0 &&
+						Array.from({ length: amountDaysToFill }).map((_, index) => (
+							<View
+								className="bg-zinc-800 rounded-lg border-2 m-1 border-zinc-700 opacity-50"
+								style={{ width: DAY_SIZE, height: DAY_SIZE }}
+							/>
+						))}
+				</View>
+			</ScrollView>
+		</View>
+	);
 }
