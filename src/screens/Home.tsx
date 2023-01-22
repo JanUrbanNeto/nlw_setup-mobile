@@ -38,6 +38,7 @@ export function Home() {
 					{amountDaysToFill > 0 &&
 						Array.from({ length: amountDaysToFill }).map((_, index) => (
 							<View
+                                key={index}
 								className="bg-zinc-800 rounded-lg border-2 m-1 border-zinc-700 opacity-50"
 								style={{ width: DAY_SIZE, height: DAY_SIZE }}
 							/>
